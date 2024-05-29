@@ -31,8 +31,43 @@ partial class Form1
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "Form1";
+        this.Text = "Ciao";
     }
+
+    public class CustomButton : System.Windows.Forms.Button
+{
+    private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
+
+    public CustomButton (string Name ,string Text,int Width, int Height, int xLocation, int yLocation)
+    {
+        this.Width = Width;
+        this.Height = Height;
+        this.Text= Text;
+        this.Name= Name;
+        this.Font = new System.Drawing.Font (this.Font.FontFamily, 10);
+        this.Location = new System.Drawing.Point(xLocation, yLocation);
+        //lb = new System.Windows.Forms.Label ();
+        //lb.Font = new System.Drawing.Font (lb.Font.FontFamily, 10);
+        //lb.Location = new System.Drawing.Point (0, 0);
+        //lb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+        //lb.BackColor = System.Drawing.Color.Transparent;
+        //lb.Text=LabelText;
+        //lb.Width = 70;
+        //lb.AutoSize=true;
+        //lb.Click += (sender, args) => InvokeOnClick (this, args); //Add this line
+        //this.Controls.Add (lb);
+    }
+
+    public System.Windows.Forms.Label getLb ()
+    {
+        return lb;
+    }
+
+    public System.Windows.Forms.Button get_btn ()
+    {
+        return this;
+    }
+}
 
     #endregion
 }
