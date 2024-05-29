@@ -1,0 +1,14 @@
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Debug\net8.0-windows\WinFormsApp.exe
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Debug\net8.0-windows\WinFormsApp.deps.json
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Debug\net8.0-windows\WinFormsApp.runtimeconfig.json
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Debug\net8.0-windows\WinFormsApp.dll
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Debug\net8.0-windows\WinFormsApp.pdb
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.AssemblyInfoInputs.cache
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.AssemblyInfo.cs
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.csproj.CoreCompileInputs.cache
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.dll
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\refint\WinFormsApp.dll
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.pdb
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.genruntimeconfig.cache
+C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\obj\Debug\net8.0-windows\ref\WinFormsApp.dll
