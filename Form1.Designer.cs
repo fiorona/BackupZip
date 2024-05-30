@@ -38,7 +38,7 @@ partial class Form1
 {
     private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
 
-    public CustomButton (string Name ,string Text,int Width, int Height, int xLocation, int yLocation)
+    public CustomButton (string Name ,string Text,int Width, int Height, int xLocation, int yLocation, int TabIndex)
     {
         this.Width = Width;
         this.Height = Height;
@@ -46,6 +46,7 @@ partial class Form1
         this.Name= Name;
         this.Font = new System.Drawing.Font (this.Font.FontFamily, 10);
         this.Location = new System.Drawing.Point(xLocation, yLocation);
+        this.TabIndex=TabIndex;
         //lb = new System.Windows.Forms.Label ();
         //lb.Font = new System.Drawing.Font (lb.Font.FontFamily, 10);
         //lb.Location = new System.Drawing.Point (0, 0);
