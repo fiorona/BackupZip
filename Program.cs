@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
+using System.Xml.Serialization;
 
 namespace WinFormsApp;
 
@@ -13,6 +14,8 @@ static class Program
     static SerialPort serialPort = new SerialPort();
     static string TX = "A";
     static string RX = "";
+
+
     static Form1 mainForm = new Form1();
         
     [STAThread]
@@ -22,14 +25,18 @@ static class Program
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
 
+        //FindComPort.GetComName("VID","PID");//USB\VID_2341&PID_8041&MI_00\8&394899FE&1&0000
+
         Application.Run(mainForm); //lancio la pagina grafica Form1 dichiarata in linea 16
     }
-    internal static string InitSerialPort(string COMport)
-    {
+    internal static string InitSerialPort()
+    {   
+        string COMport="";
         string status="";
         string MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
         try
             {
+                COMport=FindComPort.GetComName();
                 serialPort.PortName = COMport;
                 serialPort.BaudRate = 9600;
                 serialPort.Parity = Parity.None;

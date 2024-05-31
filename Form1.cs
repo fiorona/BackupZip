@@ -10,21 +10,17 @@ namespace WinFormsApp
         {
             InitializeComponent();
 
-            Button myButton1 = new CustomButton("OpenCOM","Open COM",100,50, 0, 0, 0);
+            Button myButton1 = new CustomButton("OpenCOM",100,50, 0, 0, 0,"",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
             myButton1.Click += MyButton_Click;
-            this.Controls.Add(myButton1);
 
-            Button myButton2 = new CustomButton("CloseCOM","Close COM",100,50, 100, 0, 1);
+            Button myButton2 = new CustomButton("CloseCOM",100,50, 100, 0, 1,"",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
             myButton2.Click += MyButton_Click;
-            this.Controls.Add(myButton2);
 
-            Button myButton3 = new CustomButton("Exit","Exit",100,50, 200, 0, 2);
+            Button myButton3 = new CustomButton("Exit",100,50, 200, 0, 2,"",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
             myButton3.Click += MyButton_Click;
-            this.Controls.Add(myButton3);
 
-            Button myButton4 = new CustomButton("TX","TX",100,50, 300, 0, 3);
+            Button myButton4 = new CustomButton("TX",100,50, 300, 0, 3,"",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
             myButton4.Click += MyButton_Click;
-            this.Controls.Add(myButton4);
 
             Label label1 = new Label()
             {
@@ -40,31 +36,9 @@ namespace WinFormsApp
             this.Controls.Add(label1);
             this.Controls.Add(field1);
 
-        }
+            TextBox txtCOM = new CustomTextBox("txtCOM",100,50, 500, 100, 6,"txtCOM",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+            //this.Controls.Add(txtCOM);
 
-        private void MyButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            switch(button.Name)
-            {
-                case "OpenCOM": MessageBox.Show(button.Name + " - " + Program.InitSerialPort("COM6"));
-                                
-                    break;
-
-                case "CloseCOM": MessageBox.Show(button.Name + " Clicked!");
-                    break;
-
-                case "TX": //MessageBox.Show(button.Name + " - " + Program.TxSerialPort("a"));
-                            Program.TxSerialPort("a");
-                    break;    
-
-                case "Exit": Application.Exit();
-                    break;             
-
-                default:
-                    break;    
-            }
-            
         }
         
          // Public property to access the TextBox

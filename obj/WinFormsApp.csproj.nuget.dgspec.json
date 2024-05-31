@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj": {}
+    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\Winformsapp\\WinFormsApp.csproj": {}
   },
   "projects": {
-    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj": {
+    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\Winformsapp\\WinFormsApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj",
+        "projectUniqueName": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\Winformsapp\\WinFormsApp.csproj",
         "projectName": "WinFormsApp",
-        "projectPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj",
+        "projectPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\Winformsapp\\WinFormsApp.csproj",
         "packagesPath": "C:\\Users\\nicolo.fiorona\\.nuget\\packages\\",
-        "outputPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\obj\\",
+        "outputPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\Winformsapp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nicolo.fiorona\\AppData\\Roaming\\NuGet\\NuGet.Config"
