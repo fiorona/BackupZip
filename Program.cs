@@ -14,23 +14,23 @@ static class Program
     static SerialPort serialPort = new SerialPort();
     static string TX = "A";
     static string RX = "";
+    
 
+    static Form1 mainForm = new Form1();//creo reference del Form1.cs 
 
-    static Form1 mainForm = new Form1();
-        
     [STAThread]
     static void Main()
     {
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-
-        //FindComPort.GetComName("VID","PID");//USB\VID_2341&PID_8041&MI_00\8&394899FE&1&0000
-
-        Application.Run(mainForm); //lancio la pagina grafica Form1 dichiarata in linea 16
+        
+        Application.Run(mainForm); //lancio la pagina grafica Form1 dichiarata sopra
+        
     }
     internal static string InitSerialPort()
     {   
+        if (serialPort.PortName!=""){CloseCom();}       
         string COMport="";
         string status="";
         string MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -46,23 +46,38 @@ static class Program
                 serialPort.RtsEnable = true;
                 serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
                         
-                serialPort.Close();
+                CloseCom();
                 serialPort.Open();
                 Thread.Sleep(1000);
-                status = $"{MethodName} ok: {serialPort.PortName}";
-                
+                //status = $"{MethodName} ok: {serialPort.PortName}";
+                status =$"{serialPort.PortName} OK";
             }
             catch (ArgumentException e)
             {
-                status = $"{MethodName} failed: {serialPort.PortName}";
+                //status = $"{MethodName} failed: {serialPort.PortName}";
+                status =$"{serialPort.PortName} failed";
             }
             catch (OperationCanceledException)
             {
-                serialPort.Close();
-                status = $"{MethodName} cancelled: {serialPort.PortName}";
+                CloseCom();
+                //status = $"{MethodName} cancelled: {serialPort.PortName}";
+                status =$"{serialPort.PortName} cancelled";
             }
 
         return  status;
+    }
+    internal static void ExitProgram()
+    {   
+                        
+            CloseCom();
+            Application.Exit();
+
+    }   
+    internal static void CloseCom()
+    {   
+                        
+            serialPort.Close();
+
     }
     internal static string TxSerialPort(string messageTx)
     {
@@ -79,7 +94,7 @@ static class Program
             }
             catch (OperationCanceledException)
             {
-                serialPort.Close();
+                CloseCom();
                 status = $"{MethodName} cancelled: {serialPort.PortName}";
             }
 
@@ -96,7 +111,8 @@ static class Program
         // or
         string textBoxContentAlt = mainForm.GetTextBoxText(); // Access using method
         // Optionally, modify the TextBox content
-        mainForm.SetTextBoxText(RX);
-
+        //mainForm.SetTextBoxText(RX); //aggiorno valore TextBox nel form
+        mainForm.SetTextBoxTextByName(RX,"RXvalue");//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
+        
     }    
 }

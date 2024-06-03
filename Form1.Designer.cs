@@ -11,6 +11,10 @@ partial class Form1
     ///  Clean up any resources being used.
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+
+    public static CustomTextBox RXvalue=null;
+
+
     protected override void Dispose(bool disposing)
     {
         if (disposing && (components != null))
@@ -21,49 +25,29 @@ partial class Form1
     }
 
     #region Windows Form Designer generated code
-
-    /// <summary>
-    ///  Required method for Designer support - do not modify
-    ///  the contents of this method with the code editor.
-    /// </summary>
     private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(800, 450);
         this.Text = "Ciao";
+        //aggiungo Pulsanti al form
+        Button myButton1 = new CustomButton("OpenCOM",100,50, 0, 0, 0,"closed",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        Button myButton2 = new CustomButton("CloseCOM",100,50, 100, 0, 1,"a",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        Button myButton3 = new CustomButton("Exit",100,50, 200, 0, 2,"b",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        Button myButton4 = new CustomButton("TX",100,50, 300, 0, 3,"c",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        //aggiungo TestBox al form
+        RXvalue = new CustomTextBox("RXvalue",100,50, 0, 200, 5,"RXvalue",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        TextBox txtCOM = new CustomTextBox("txtCOM",100,50, 500, 100, 6,"txtCOM",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        //aggiungo controlli al form
+
     }
-
-    public void MyButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;//setto sender come button
-            switch(button.Name)
-            {
-                case "OpenCOM": MessageBox.Show(button.Name + " - " + Program.InitSerialPort());
-                                
-                    break;
-
-                case "CloseCOM": MessageBox.Show(button.Name + " Clicked!");
-                    break;
-
-                case "TX": //MessageBox.Show(button.Name + " - " + Program.TxSerialPort("a"));
-                            Program.TxSerialPort("a");
-                    break;    
-
-                case "Exit": Application.Exit();
-                    break;             
-
-                default:
-                    break;    
-            }
-            
-        }
 
     public class CustomButton : System.Windows.Forms.Button
     {
         private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
-
-        public CustomButton (string Name,int Width, int Height, int xLocation, int yLocation, int TabIndex,string LabelText,Form sender)
+        
+        public CustomButton (string Name,int Width, int Height, int xLocation, int yLocation, int TabIndex,string LabelText,Form sender, string lbLocation)
         {
             this.Width = Width;
             this.Height = Height;
@@ -73,7 +57,8 @@ partial class Form1
             this.Location = new System.Drawing.Point(xLocation, yLocation);
             this.TabIndex=TabIndex;
             sender.Controls.Add (this); //this si riferisce al button e la aggiungo al sender che è il Form
-            //this.Click += MyButton_Click();
+            this.Click += MyButton_Click;
+
             if (LabelText!="")
             {
                 lb = new System.Windows.Forms.Label ();
@@ -82,8 +67,36 @@ partial class Form1
                 lb.Text=LabelText;
                 lb.AutoSize=true;
                 lb.Visible=true;
-                lb.Location = new System.Drawing.Point(this.Bounds.Right,this.Bounds.Top + (this.Height - lb.Height) );//centro label sul lato destro
-                lb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+                lb.Name=Name;
+                int lbX=0;
+                int lbY=0;
+                switch(lbLocation)
+                {
+                    case "left":    
+                                    lbX=(this.Bounds.Left-lb.Width);
+                                    lbY=this.Top + ((this.Height - lb.Height)/2);
+                                    lb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                        break;
+                    case "right":
+                                    lbX=(this.Bounds.Right);
+                                    lbY=this.Top + ((this.Height - lb.Height)/2);
+                                    lb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+                        break;
+                    case "top":    
+                                    lbX=this.Bounds.Left;
+                                    lbY=this.Bounds.Top;
+                                    lb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+                        break;
+                    case "bottom":    
+                                    lbX=this.Bounds.Left;
+                                    lbY=this.Bounds.Bottom;
+                                    lb.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+                        break;
+
+                    default:
+                        break;
+                }
+                lb.Location = new System.Drawing.Point(lbX ,lbY);//centro label sul lato destro               
                 lb.BackColor = System.Drawing.Color.Transparent;            
                 sender.Controls.Add (lb);//aggiungo al sender che è il Form
             } 
@@ -99,6 +112,7 @@ partial class Form1
             return this;
         }
     }//fine CustomButton
+
     public class CustomTextBox : System.Windows.Forms.TextBox
     {
         private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
@@ -138,5 +152,6 @@ partial class Form1
             return this;
         }
     }//fine CustomTextBox
+
     #endregion
 }
