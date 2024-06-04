@@ -12,8 +12,11 @@ partial class Form1
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 
-    public static CustomTextBox RXvalue=null;
-
+    public CustomTextBox RXvalue=null;
+    public CustomButton OpenComButton=null;
+    public CustomButton CloseComButton=null;
+    public CustomButton ExitButton=null;
+    public CustomButton TxButton=null;
 
     protected override void Dispose(bool disposing)
     {
@@ -32,13 +35,14 @@ partial class Form1
         this.ClientSize = new System.Drawing.Size(800, 450);
         this.Text = "Ciao";
         //aggiungo Pulsanti al form
-        Button myButton1 = new CustomButton("OpenCOM",100,50, 0, 0, 0,"closed",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        Button myButton2 = new CustomButton("CloseCOM",100,50, 100, 0, 1,"a",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        Button myButton3 = new CustomButton("Exit",100,50, 200, 0, 2,"b",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        Button myButton4 = new CustomButton("TX",100,50, 300, 0, 3,"c",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        OpenComButton = new CustomButton("OpenCOM",100,50, 0, 0, 0,"closed",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        CloseComButton = new CustomButton("CloseCOM",100,50, 100, 0, 1,"a",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        ExitButton = new CustomButton("Exit",100,50, 200, 0, 2,"b",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        TxButton = new CustomButton("TX",100,50, 300, 0, 3,"c",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        TxButton.Enabled=false;
         //aggiungo TestBox al form
-        RXvalue = new CustomTextBox("RXvalue",100,50, 0, 200, 5,"RXvalue",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        TextBox txtCOM = new CustomTextBox("txtCOM",100,50, 500, 100, 6,"txtCOM",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        RXvalue = new CustomTextBox("RXvalue",100,50, 400, 0, 4,"RXvalue",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        //TextBox txtCOM = new CustomTextBox("txtCOM",100,50, 500, 100, 6,"txtCOM",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
         //aggiungo controlli al form
 
     }

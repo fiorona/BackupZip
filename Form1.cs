@@ -7,6 +7,7 @@ namespace WinFormsApp
     public partial class Form1 : Form
     {
         public static Form1 It;   // Singleton.
+        public static bool led13=true;
         public Form1()
         {
             InitializeComponent();      //aggiungo tutti i campi grafici    
@@ -19,18 +20,29 @@ namespace WinFormsApp
             Button button = sender as Button;//setto sender come button
             switch(button.Name)
             {
-                case "OpenCOM": RXvalue.Text=Program.InitSerialPort();
-                                It.SetLabelTextByName("ciao","TX");
+                case "OpenCOM": 
+                                    //It.RXvalue.Text=Program.InitSerialPort();
+                                    It.SetLabelTextByName(Program.InitSerialPort(),"OpenCOM");
+                                    It.TxButton.Enabled=true;
                     break;
 
-                case "CloseCOM": Program.CloseCom();
+                case "CloseCOM": 
+                                    Program.CloseCom();
+                                    It.SetLabelTextByName("Closed","OpenCOM");
+                                    It.TxButton.Enabled=false;
+                                
                     break;
 
-                case "TX": //MessageBox.Show(button.Name + " - " + Program.TxSerialPort("a"));
-                            Program.TxSerialPort("a");
+                case "TX": 
+                                    //MessageBox.Show(button.Name + " - " + Program.TxSerialPort("a"));
+                                    //Program.TxSerialPort("aaaa");
+                                    
+                                    Program.ArrayTxSerialPort(led13);
+                                    led13= !led13;
                     break;    
 
-                case "Exit": Program.ExitProgram();
+                case "Exit":        
+                                    Program.ExitProgram();
                     break;             
 
                 default:
@@ -91,7 +103,10 @@ namespace WinFormsApp
                     i++;
                 }
         }  
-        
+        public void SetLabelTextByRef(string text, CustomTextBox TextBoxName)
+        {           
+            TextBoxName.Text= text;                               
+        }
     }
     
 }

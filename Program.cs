@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
+using System.Collections;
 
 namespace WinFormsApp;
 
@@ -14,8 +15,7 @@ static class Program
     static SerialPort serialPort = new SerialPort();
     static string TX = "A";
     static string RX = "";
-    
-
+    static SerialDataReceivedEventHandler myHandle=null; //dichiaro metodo evento interrupt seriale
     static Form1 mainForm = new Form1();//creo reference del Form1.cs 
 
     [STAThread]
@@ -44,9 +44,11 @@ static class Program
                 serialPort.StopBits = StopBits.One;
                 serialPort.DtrEnable = true;
                 serialPort.RtsEnable = true;
-                serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
+                myHandle= new SerialDataReceivedEventHandler(sp_DataReceived); //inizializzo metodo evento interrupt seriale
+                //serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
+                serialPort.DataReceived += myHandle; //ogni volta che ricevo dati su seriale "DataReceived" eseguo metodo configurato in myHandle
                         
-                CloseCom();
+                
                 serialPort.Open();
                 Thread.Sleep(1000);
                 //status = $"{MethodName} ok: {serialPort.PortName}";
@@ -77,6 +79,7 @@ static class Program
     {   
                         
             serialPort.Close();
+            serialPort.DataReceived -= myHandle; //rimuovo metodo altrimenti non funziona dopo open com
 
     }
     internal static string TxSerialPort(string messageTx)
@@ -100,6 +103,44 @@ static class Program
 
         return  status;
     }
+    internal static string ArrayTxSerialPort(bool led)
+    {
+        string status="";
+        string MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+        var SendArray = new byte[] { 0x0B, 0x00, 0x00, 0x0A };
+        
+        try
+            {
+                SendArray[2]=insertIntoPosition(SendArray[2],3,led);
+                serialPort.Write(SendArray,0,SendArray.Length);    
+                //serialPort.WriteLine("a"); 
+                status = $"{MethodName} ok: {serialPort.PortName}";
+            }
+            catch (ArgumentException e)
+            {
+                status = $"{MethodName} failed: {serialPort.PortName}";
+            }
+            catch (OperationCanceledException)
+            {
+                CloseCom();
+                status = $"{MethodName} cancelled: {serialPort.PortName}";
+            }
+
+        return  status;
+    }
+    public static byte insertIntoPosition(byte number, int position, bool bit)
+    {
+        // converting the number to BitArray
+        //BitArray a = new BitArray (new byte[]{number});
+        BitArray a = new BitArray (8, false);
+        // setting the position bit
+        a.Set (position, bit);
+
+        // converting BitArray to byte again
+        byte[] array = new byte[1];
+        a.CopyTo(array, 0);
+        return array[0];
+    }
     public static void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         //Write the serial port data to the console.
@@ -113,6 +154,6 @@ static class Program
         // Optionally, modify the TextBox content
         //mainForm.SetTextBoxText(RX); //aggiorno valore TextBox nel form
         mainForm.SetTextBoxTextByName(RX,"RXvalue");//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
-        
+        //mainForm.SetLabelTextByRef(RX,mainForm.RXvalue);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
     }    
 }
