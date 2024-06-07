@@ -28,6 +28,7 @@ static class Program
         Application.Run(mainForm); //lancio la pagina grafica Form1 dichiarata sopra
         
     }
+
     internal static string InitSerialPort()
     {   
         if (serialPort.PortName!=""){CloseCom();}       
@@ -103,17 +104,22 @@ static class Program
 
         return  status;
     }
-    internal static string ArrayTxSerialPort(bool led)
+    internal static string BitArrayTxSerialPort(BitArray bitArray,int position, bool bit)
     {
         string status="";
         string MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
         var SendArray = new byte[] { 0x0B, 0x00, 0x00, 0x0A };
-        
+               
+        bitArray.Set (position, bit);
+        byte[] arraycopy = new byte[2];
+        bitArray.CopyTo(arraycopy, 0);
+        SendArray[1]=arraycopy[0];
+        SendArray[2]=arraycopy[1];
+
         try
             {
-                SendArray[2]=insertIntoPosition(SendArray[2],3,led);
+                //SendArray[2]=insertIntoPosition(SendArray[2],3,true);
                 serialPort.Write(SendArray,0,SendArray.Length);    
-                //serialPort.WriteLine("a"); 
                 status = $"{MethodName} ok: {serialPort.PortName}";
             }
             catch (ArgumentException e)
@@ -128,32 +134,17 @@ static class Program
 
         return  status;
     }
-    public static byte insertIntoPosition(byte number, int position, bool bit)
-    {
-        // converting the number to BitArray
-        //BitArray a = new BitArray (new byte[]{number});
-        BitArray a = new BitArray (8, false);
-        // setting the position bit
-        a.Set (position, bit);
-
-        // converting BitArray to byte again
-        byte[] array = new byte[1];
-        a.CopyTo(array, 0);
-        return array[0];
-    }
     public static void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         //Write the serial port data to the console.
-        RX = serialPort.ReadExisting();
-        //Console.WriteLine("RX: " + RX);
-       
+        RX = serialPort.ReadExisting();       
         // Access the TextBox after the form is running
         string textBoxContent = mainForm.MainTextBox.Text; // Access using property
         // or
         string textBoxContentAlt = mainForm.GetTextBoxText(); // Access using method
         // Optionally, modify the TextBox content
         //mainForm.SetTextBoxText(RX); //aggiorno valore TextBox nel form
-        mainForm.SetTextBoxTextByName(RX,"RXvalue");//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
-        //mainForm.SetLabelTextByRef(RX,mainForm.RXvalue);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
+        //mainForm.SetTextBoxTextByName(RX,"RXvalue");//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
+        mainForm.SetLabelTextByRef(RX,mainForm.RXvalue);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
     }    
 }
