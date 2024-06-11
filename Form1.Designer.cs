@@ -1,4 +1,7 @@
-﻿namespace WinFormsApp;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System.Collections;
+namespace WinFormsApp;
+
 
 partial class Form1
 {
@@ -12,13 +15,19 @@ partial class Form1
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 
-    public CustomTextBox RXvalue=null;
+    public CustomTextBox RXmillis=null;
+    public CustomTextBox RXbytes=null;
+    public List <CustomTextBox> RXAnalogs=null;
+    public List <CustomTextBox> RXAmperes=null;
+    public static List <CustomTextBox> TXpwm=null;
     public CustomButton OpenComButton=null;
+    public CustomButton OpenDatabaseForm=null;
     public CustomButton CloseComButton=null;
     public CustomButton ExitButton=null;
     public CustomButton ResetButton=null;
-    public static List <CustomButton> LedButtonList=null;
+    public int indexTab=0;
     public static List <CustomCheckBox> LedCheckBoxList=null;
+    public static List <CustomCheckBox> LedPwmList=null;
     protected override void Dispose(bool disposing)
     {
         if (disposing && (components != null))
@@ -33,228 +42,56 @@ partial class Form1
     {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
+        this.WindowState = FormWindowState.Maximized;
+        //this.ClientSize = new System.Drawing.Size(1000, 1000);
         this.Text = "Ciao";
         //aggiungo Pulsanti al form
-        OpenComButton = new CustomButton("OpenCOM",100,50, 0, 0, 0,"closed",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        CloseComButton = new CustomButton("CloseCOM",100,50, 100, 0, 1,"a",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        ExitButton = new CustomButton("Exit",100,50, 200, 0, 2,"b",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        ResetButton = new CustomButton("RESET",100,50, 300, 0, 3,"c",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        OpenComButton = new CustomButton("OpenCOM",100,50, 0, 0, indexTab,"closed",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        OpenComButton.Click += MyButton_Click;
+        OpenDatabaseForm = new CustomButton("OpenDatabase",100,50, 0, 100, indexTab,"",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        OpenDatabaseForm.Click += MyButton_Click;
+        CloseComButton = new CustomButton("CloseCOM",100,50, 100, 0, indexTab=indexTab+1,"",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        CloseComButton.Click += MyButton_Click;
+        ExitButton = new CustomButton("Exit",100,50, 200, 0, indexTab=indexTab+1,"",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        ExitButton.Click += MyButton_Click;
+        ResetButton = new CustomButton("RESET",200,50, 300, 0, indexTab=indexTab+1,"",this,"bottom");//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        ResetButton.Click += MyButton_Click;
         ResetButton.Enabled=false;
-        //ButtonManager(); 
-        CheckBoxManager();
+
+        CheckBoxManager(12,300,50,"PWM",ref LedPwmList);
+        CheckBoxManager(12,400,50,"LED",ref LedCheckBoxList);
         //aggiungo TestBox al form
-        RXvalue = new CustomTextBox("RXvalue",100,50, 400, 0, 4,"RXvalue",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        //TextBox txtCOM = new CustomTextBox("txtCOM",100,50, 500, 100, 6,"txtCOM",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
-        //aggiungo controlli al form
+        RXmillis = new CustomTextBox("RXmillis",100,50, 500, 0, indexTab=indexTab+1,"RXmillis",this);//this fa riferimento a WinFormsApp.Form1 e lo passo al metodo
+        RXbytes = new CustomTextBox("RXbytes",100,50, 500, 25, indexTab=indexTab+1,"RXbytes",this);
+        TexBoxManager(6,500,75,"RXAnalogs",ref RXAnalogs);//passo lista come riferimento a quella già esistente
+        TexBoxManager(6,700,75,"RXAmpere",ref RXAmperes);//passo lista come riferimento a quella già esistente
+        TexBoxManager(12,200,50,"TXpwm",ref TXpwm);//passo lista come riferimento a quella già esistente
 
     }
-    public void ButtonManager()//creo la lista dei pulsanti LED
+    public void TexBoxManager(int totali, int StartXpos, int StartYpos, string Name,ref List<CustomTextBox> List)//creo la lista dei pulsanti LED
     {
-        LedButtonList = new List<CustomButton>();
-        for (int i=0; i<12; i++)
+        List = new List<CustomTextBox>();
+        for (int i=0; i<totali; i++)
         {
-            string nomePulsante= $"LED{i+2}";
+            string nome= Name+$"{i}";
+            string label= nome; 
+            CustomTextBox RXAmpereTextBox = new CustomTextBox(nome,100,50, StartXpos,StartYpos+(i*25), indexTab=indexTab+1,label,this);          
+            //RXAnalogTextBox.Enabled=false;                  
+            List.Add(RXAmpereTextBox);
+        }
+    }
+    public void CheckBoxManager(int totali, int StartXpos, int StartYpos, string Name,ref List<CustomCheckBox> List)//creo la lista dei pulsanti LED
+    {
+        List = new List<CustomCheckBox>();
+        for (int i=0; i<totali; i++)
+        {
+            string nomePulsante= Name+$"{i+2}";
             string labelPulsante= nomePulsante; 
-            CustomButton LedButtonSingle = new CustomButton(nomePulsante,100,25, 300,50+(i*25), 5+i,labelPulsante,this,nomePulsante);          
-            LedButtonSingle.Enabled=false;    
-               
-            LedButtonList.Add(LedButtonSingle);
+            CustomCheckBox LedCustomCheckSingle = new CustomCheckBox(nomePulsante,100,25, StartXpos,StartYpos+(i*25), indexTab=indexTab+1,labelPulsante,this,nomePulsante);              
+            LedCustomCheckSingle.Click += MyButton_Click;   
+            List.Add(LedCustomCheckSingle);
         }
-    }
-    public void CheckBoxManager()//creo la lista dei pulsanti LED
-    {
-        LedCheckBoxList = new List<CustomCheckBox>();
-        for (int i=0; i<12; i++)
-        {
-            string nomePulsante= $"LED{i+2}";
-            string labelPulsante= nomePulsante; 
-            CustomCheckBox LedCustomCheckSingle = new CustomCheckBox(nomePulsante,100,25, 300,50+(i*25), 5+i,labelPulsante,this,nomePulsante);              
-               
-            LedCheckBoxList.Add(LedCustomCheckSingle);
-        }
-    }
-    public class CustomButton : System.Windows.Forms.Button
-    {
-        private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
-        
-        public CustomButton (string Name,int Width, int Height, int xLocation, int yLocation, int TabIndex,string LabelText,Form sender, string lbLocation)
-        {
-            this.Width = Width;
-            this.Height = Height;
-            this.Text= Name;
-            this.Name= Name;
-            this.Enabled=true;
-            //this.AccessibleName=LabelText;
-            this.Font = new System.Drawing.Font (this.Font.FontFamily, 10);
-            this.Location = new System.Drawing.Point(xLocation, yLocation);
-            this.TabIndex=TabIndex;
-            sender.Controls.Add (this); //this si riferisce al button e la aggiungo al sender che è il Form
-            this.Click += MyButton_Click;
-
-            if (LabelText!="")
-            {
-                lb = new System.Windows.Forms.Label ();
-                lb.Font = new System.Drawing.Font (lb.Font.FontFamily, 10);
-                //lb.Location = new System.Drawing.Point (100, 100);
-                lb.Text=LabelText;
-                lb.AutoSize=true;
-                lb.Visible=true;
-                lb.Name=Name;
-                int lbX=0;
-                int lbY=0;
-                switch(lbLocation)
-                {
-                    case "left":    
-                                    lbX=(this.Bounds.Left-lb.Width);
-                                    lbY=this.Top + ((this.Height - lb.Height)/2);
-                                    lb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-                        break;
-                    case "right":
-                                    lbX=(this.Bounds.Right);
-                                    lbY=this.Top + ((this.Height - lb.Height)/2);
-                                    lb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        break;
-                    case "top":    
-                                    lbX=this.Bounds.Left;
-                                    lbY=this.Bounds.Top;
-                                    lb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-                        break;
-                    case "bottom":    
-                                    lbX=this.Bounds.Left;
-                                    lbY=this.Bounds.Bottom;
-                                    lb.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-                        break;
-
-                    default:
-                        break;
-                }
-                lb.Location = new System.Drawing.Point(lbX ,lbY);//centro label sul lato destro               
-                lb.BackColor = System.Drawing.Color.Transparent;            
-                sender.Controls.Add (lb);//aggiungo al sender che è il Form
-            } 
-        }
-        
-        public System.Windows.Forms.Label getLb ()
-        {
-            return lb;
-        }
-
-        public System.Windows.Forms.Button get_btn ()
-        {
-            return this;
-        }
-    }//fine CustomButton
-    public class CustomCheckBox : System.Windows.Forms.CheckBox
-    {
-        private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
-        
-        public CustomCheckBox (string Name,int Width, int Height, int xLocation, int yLocation, int TabIndex,string LabelText,Form sender, string lbLocation)
-        {
-            this.Appearance=System.Windows.Forms.Appearance.Button;
-            this.Width = Width;
-            this.Height = Height;
-            this.Text= Name;
-            this.Name= Name;
-            //this.AccessibleName=LabelText;
-            this.Font = new System.Drawing.Font (this.Font.FontFamily, 10);
-            this.TextAlign=ContentAlignment.MiddleCenter;
-            this.Location = new System.Drawing.Point(xLocation, yLocation);
-            this.TabIndex=TabIndex;
-            this.Enabled=false;
-            sender.Controls.Add (this); //this si riferisce al button e la aggiungo al sender che è il Form
-            this.Click += MyButton_Click;
-
-            if (LabelText!="")
-            {
-                lb = new System.Windows.Forms.Label ();
-                lb.Font = new System.Drawing.Font (lb.Font.FontFamily, 10);
-                //lb.Location = new System.Drawing.Point (100, 100);
-                lb.Text=LabelText;
-                lb.AutoSize=true;
-                lb.Visible=true;
-                lb.Name=Name;
-                int lbX=0;
-                int lbY=0;
-                switch(lbLocation)
-                {
-                    case "left":    
-                                    lbX=(this.Bounds.Left-lb.Width);
-                                    lbY=this.Top + ((this.Height - lb.Height)/2);
-                                    lb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-                        break;
-                    case "right":
-                                    lbX=(this.Bounds.Right);
-                                    lbY=this.Top + ((this.Height - lb.Height)/2);
-                                    lb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        break;
-                    case "top":    
-                                    lbX=this.Bounds.Left;
-                                    lbY=this.Bounds.Top;
-                                    lb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-                        break;
-                    case "bottom":    
-                                    lbX=this.Bounds.Left;
-                                    lbY=this.Bounds.Bottom;
-                                    lb.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-                        break;
-
-                    default:
-                        break;
-                }
-                lb.Location = new System.Drawing.Point(lbX ,lbY);//centro label sul lato destro               
-                lb.BackColor = System.Drawing.Color.Transparent;            
-                sender.Controls.Add (lb);//aggiungo al sender che è il Form
-            } 
-        }
-        public System.Windows.Forms.Label getLb ()
-        {
-            return lb;
-        }
-        public System.Windows.Forms.CheckBox get_btn ()
-        {
-            return this;
-        }
-    }//fine CustomCheckBox
-    public class CustomTextBox : System.Windows.Forms.TextBox
-    {
-        private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
-
-        public CustomTextBox (string Name, int Width, int Height, int xLocation, int yLocation, int TabIndex, string LabelText,Form sender)
-        {
-            this.Width = Width;
-            this.Height = Height;
-            this.Text= "";
-            this.Name= Name;
-            this.Font = new System.Drawing.Font (this.Font.FontFamily, 10);
-            this.Location = new System.Drawing.Point(xLocation, yLocation);
-            this.TabIndex=TabIndex;
-            sender.Controls.Add (this); //this si riferisce alla TextBox e la aggiungo al sender che è il Form
-            if (LabelText!="")
-            {
-                lb = new System.Windows.Forms.Label ();
-                lb.Font = new System.Drawing.Font (lb.Font.FontFamily, 10);
-                //lb.Location = new System.Drawing.Point (100, 100);
-                lb.Text=LabelText;
-                lb.AutoSize=true;
-                lb.Visible=true;
-                lb.Location = new System.Drawing.Point(this.Bounds.Right,this.Bounds.Top + (this.Height - lb.Height) );//centro label sul lato destro
-                lb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-                lb.BackColor = System.Drawing.Color.Transparent;            
-                sender.Controls.Add (lb);//aggiungo al sender che è il Form
-            }                 
-        }
-        
-        public System.Windows.Forms.Label getLb ()
-        {
-            return lb;
-        }
-
-        public System.Windows.Forms.TextBox get_txt ()
-        {
-            return this;
-        }
-    }//fine CustomTextBox
-
+    }  
+      
     #endregion
 }

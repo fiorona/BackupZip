@@ -3,12 +3,13 @@ using System.CodeDom;
 using System.Windows.Forms;
 using System.Collections;
 
+
 namespace WinFormsApp
 {
     public partial class Form1 : Form
-    {
+    {    
         public static Form1 It;   // Singleton.
-        public static BitArray ArduinoDigitalOutputs= new BitArray (16, false);
+        
         public Form1()
         {
             InitializeComponent();      //aggiungo tutti i campi grafici    
@@ -24,60 +25,63 @@ namespace WinFormsApp
             switch(button.Name)
             {
                 case "OpenCOM": 
-                                    //It.RXvalue.Text=Program.InitSerialPort();
                                     It.SetLabelTextByName(Program.InitSerialPort(),"OpenCOM");
                                     It.ResetButton.Enabled=true;
-                                    //foreach (Button b in LedButtonList){b.Enabled=true;}
-                                    //foreach (CheckBox b in LedCheckBoxList){b.Enabled=true;}
                                     foreach (Control b in LedCheckBoxList){b.Enabled=true;}
-                    break;
+                                    foreach (Control b in LedPwmList){b.Enabled=true;}
+                                break;
 
                 case "CloseCOM": 
                                     Program.CloseCom();
                                     It.SetLabelTextByName("Closed","OpenCOM");
                                     It.ResetButton.Enabled=false;
-                                    //foreach (Button b in LedButtonList){b.Enabled=false;}
-                                    //foreach (CheckBox b in LedCheckBoxList){b.Enabled=false;}
                                     foreach (Control b in LedCheckBoxList){b.Enabled=false;}
-                    break;
+                                    foreach (Control b in LedPwmList){b.Enabled=false;}
+                                break;
 
                 case "RESET": 
-                                    //MessageBox.Show(button.Name + " - " + Program.TxSerialPort("a"));
-                                    //Program.TxSerialPort("aaaa"); 
-                                    ArduinoDigitalOutputs =  new BitArray (16, false);                                
-                                    Program.BitArrayTxSerialPort(ArduinoDigitalOutputs,0,false);
+                                    Program.ResetOutputs();                               
+                                    Program.DigitalOutputs(0,false);
                                     foreach (CheckBox b in LedCheckBoxList){b.Checked=false;}
-                    break;
+                                    foreach (CheckBox b in LedPwmList){b.Checked=false;}
+                                break;
 
                 case "LED0": case "LED1": case "LED2": case "LED3": case "LED4": case "LED5": case "LED6": case "LED7": case "LED8": case "LED9":
                 case "LED10": case "LED11": case "LED12": case "LED13":
-                                    int position= Int32.Parse(button.Name.Split("LED")[1])-2;//split restituisce un array e leggo il 2 byte
-                                                                       
-                                    Program.BitArrayTxSerialPort(ArduinoDigitalOutputs,position,CheckBox.Checked);
-                    break;        
+                                    foreach (CheckBox b in LedPwmList){b.Checked=false;}
+                                    Program.ResetPwmOutputs();
+                                    Program.DigitalOutputs((Int32.Parse(button.Name.Split("LED")[1])-2),CheckBox.Checked);
+                                break; 
+
+                case "PWM0": case "PWM1": case "PWM2": case "PWM3": case "PWM4": case "PWM5": case "PWM6": case "PWM7": case "PWM8": case "PWM9":
+                case "PWM10": case "PWM11": case "PWM12": case "PWM13":
+                                    foreach (CheckBox b in LedCheckBoxList){b.Checked=false;}
+                                    int index=(Int32.Parse(button.Name.Split("PWM")[1])-2);
+                                    Program.ResetDigitalOutputs();
+                                    //if ((CheckBox.Checked==false)||(TXpwm.ElementAt(index).Text==""))
+                                    if ((TXpwm.ElementAt(index).Text==""))
+                                    {
+                                        TXpwm.ElementAt(index).Text="0";
+                                    }                                   
+                                    byte byteValue = (byte)int.Parse(TXpwm.ElementAt(index).Text); 
+                                    Program.PWMOutputs(index,CheckBox.Checked,byteValue);
+                                
+                                break;            
 
                 case "Exit":        
                                     Program.ExitProgram();
-                    break;             
+                                break;  
+
+                case "OpenDatabase":    
+                                    FormDatabase FormDatabase= new FormDatabase();
+                                    FormDatabase.Show(); //lancio la pagina grafica Form1 dichiarata sopra // Apre il form come una finestra separata
+                                    //FormDatabase.ShowDialog(); // Apre il form come una finestra modale
+                                break;
 
                 default:
                     break;    
             }
             
-        }
-         // Public property to access the TextBox
-        public TextBox MainTextBox
-        {
-            get { return RXvalue; }
-        }
-        // Optional: Public method to access the TextBox
-        public string GetTextBoxText()
-        {
-            return RXvalue.Text;
-        }
-        public void SetTextBoxText(string text)
-        {
-             RXvalue.Text= text;
         }
         public void SetTextBoxTextByName(string text, string TextBoxName)
         {
@@ -92,7 +96,6 @@ namespace WinFormsApp
                             if (valore.Name==TextBoxName)
                             {
                                 valore.Text= text;  
-                                //RXvalue.Text= text;  
                                 break; // get out of the loop
                             }
                         }    
@@ -121,6 +124,11 @@ namespace WinFormsApp
         public void SetLabelTextByRef(string text, CustomTextBox TextBoxName)
         {           
             TextBoxName.Text= text;                               
+        }
+        public void Form1_ButtonClicked(object sender, EventArgs e)
+        {
+            // Gestire il clic del pulsante qui
+            Console.WriteLine("Il pulsante è stato cliccato!");
         }
     }
     
