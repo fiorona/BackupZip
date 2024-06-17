@@ -1,5 +1,0 @@
-C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Release\net8.0-windows\publish\WinFormsApp.exe
-C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Release\net8.0-windows\publish\WinFormsApp.dll
-C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Release\net8.0-windows\publish\WinFormsApp.deps.json
-C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Release\net8.0-windows\publish\WinFormsApp.runtimeconfig.json
-C:\Collaudi\VisualStudioCode\WindowsForms\WinFormsApp\bin\Release\net8.0-windows\publish\WinFormsApp.pdb

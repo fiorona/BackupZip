@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Data;
-
 public static class DatabaseCsv
 {
     public static void SaveCsv(string filePath, string delimiter,string[,] matrice)

@@ -1,4 +1,4 @@
-namespace WinFormsApp;
+namespace BackupZip;
 partial class Form1
 {
     public class CustomTextBox : System.Windows.Forms.TextBox

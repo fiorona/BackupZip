@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj": {}
+    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\BackupZip\\BackupZip.csproj": {}
   },
   "projects": {
-    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj": {
+    "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\BackupZip\\BackupZip.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj",
-        "projectName": "WinFormsApp",
-        "projectPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj",
+        "projectUniqueName": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\BackupZip\\BackupZip.csproj",
+        "projectName": "BackupZip",
+        "projectPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\BackupZip\\BackupZip.csproj",
         "packagesPath": "C:\\Users\\nicolo.fiorona\\.nuget\\packages\\",
-        "outputPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\obj\\",
+        "outputPath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\BackupZip\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nicolo.fiorona\\AppData\\Roaming\\NuGet\\NuGet.Config"
