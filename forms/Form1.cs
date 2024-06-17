@@ -121,14 +121,13 @@ namespace WinFormsApp
                     i++;
                 }
         }  
-        public void SetLabelTextByRef(string text, CustomTextBox TextBoxName)
+        public void SetLabelTextByRef(string text, ref CustomTextBox TextBoxName)
         {           
             TextBoxName.Text= text;                               
         }
-        public void Form1_ButtonClicked(object sender, EventArgs e)
-        {
-            // Gestire il clic del pulsante qui
-            Console.WriteLine("Il pulsante è stato cliccato!");
+        public void SetLabelTextByRef2(string text, ref List<CustomTextBox> TextBoxName, int index)
+        {           
+            TextBoxName[index].Text= text;                               
         }
     }
     

@@ -17,7 +17,7 @@ namespace WinFormsApp
             InitializeComponent();
             
             //DatabaseCsv.LoadCsvFileToDataGridView($"C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\Prova.csv",";",ref dataGridView);//carico i dati direttamente nel dataGridView by reference
-            dataGridView.DataSource=DatabaseCsv.ReadCsvFileToDataTable($"C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\Prova.csv",";");//carico i dati in un datatable e poi li copio nel dataGridView
+            dataGridView.DataSource=DatabaseCsv.ReadCsvFileToDataTable($"C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\Database\\csv\\Prova.csv",";");//carico i dati in un datatable e poi li copio nel dataGridView
 
             ThisForm=this;            
         }

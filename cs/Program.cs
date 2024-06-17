@@ -150,7 +150,7 @@ static class Program
     public static void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         int bit=serialPort.BytesToRead;//The number of bytes of data in the receive buffer.
-        mainForm.SetLabelTextByRef(bit.ToString(),mainForm.RXbytes);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
+        mainForm.SetLabelTextByRef(bit.ToString(),ref mainForm.RXbytes);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
         var RXArray = new byte[64];
         serialPort.Read(RXArray,0,RXArray.Length);//Reads a number of bytes from the SerialPort input buffer and writes those bytes into a byte array at the specified offset.
         if ((RXArray[0]==0x0A)&&(RXArray[63]==0x0B))
@@ -161,7 +161,7 @@ static class Program
                 MillisArray[2]=RXArray[4];
                 MillisArray[3]=RXArray[5];
             int millis=BitConverter.ToInt32(MillisArray,0);
-            mainForm.SetLabelTextByRef(millis.ToString(),mainForm.RXmillis);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare 
+            mainForm.SetLabelTextByRef(millis.ToString(),ref mainForm.RXmillis);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare 
 
             
                 for (int i=0; i<6;i++)//lettura contatore Arduino firware
@@ -170,12 +170,13 @@ static class Program
                     AnalogsArray[0]=RXArray[8+(i*2)];
                     AnalogsArray[1]=RXArray[9+(i*2)];
                     int Analog=BitConverter.ToInt16(AnalogsArray,0);
-                    mainForm.SetLabelTextByRef(Analog.ToString(),mainForm.RXAnalogs.ElementAt(i));//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
-                    
+                    //mainForm.SetLabelTextByRef(Analog.ToString(),ref mainForm.RXAnalogs.ElementAt(i));//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
+                    mainForm.SetLabelTextByRef2(Analog.ToString(),ref mainForm.RXAnalogs,i);//aggiorno valore TextBox nel form in base al nome della TextBox da aggiornare
+
                     double Volt=(Analog*5)/1023.00;//1023:5=bit:Volt
                     double Ampere=Volt/1.00;//K=Volt/Ampere --> K=1  
                     string AmpereString= String.Format("{0:0.##}", Ampere);//setto 2 numeri dopo la virgola                   
-                    mainForm.SetLabelTextByRef(AmpereString,mainForm.RXAmperes.ElementAt(i));             
+                    mainForm.SetLabelTextByRef2(AmpereString,ref mainForm.RXAmperes,i);             
                 }
                  
             switch (RXArray[1])

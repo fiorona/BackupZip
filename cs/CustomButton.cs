@@ -1,13 +1,12 @@
-namespace WinFormsApp
+namespace WinFormsApp;
+partial class Form1
 {
     public class CustomButton : System.Windows.Forms.Button
         {
             private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
                         
             public CustomButton (string Name,int Width, int Height, int xLocation, int yLocation, int TabIndex,string LabelText,Form sender, string lbLocation)
-            {
-                //Form1 mainForm = new Form1();//creo reference del Form1.cs
-                
+            {               
                 this.Width = Width;
                 this.Height = Height;
                 this.Text= Name;
@@ -18,8 +17,7 @@ namespace WinFormsApp
                 this.Location = new System.Drawing.Point(xLocation, yLocation);
                 this.TabIndex=TabIndex;
                 sender.Controls.Add (this); //this si riferisce al button e la aggiungo al sender che è il Form
-                //this.Click += mainForm.Form1_ButtonClicked;
-                //this.Click += mainForm.MyButton_Click;
+               this.Click += MyButton_Click;
 
                 if (LabelText!="")
                 {
@@ -62,16 +60,6 @@ namespace WinFormsApp
                     lb.BackColor = System.Drawing.Color.Transparent;            
                     sender.Controls.Add (lb);//aggiungo al sender che è il Form
                 } 
-            }
-            
-            public System.Windows.Forms.Label getLb ()
-            {
-                return lb;
-            }
-
-            public System.Windows.Forms.Button get_btn ()
-            {
-                return this;
             }
         }//fine CustomButton
 }    

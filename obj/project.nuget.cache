@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ETCFS7771rE=",
+  "dgSpecHash": "UfFbkEXVg2A=",
   "success": true,
-  "projectFilePath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\Winformsapp\\WinFormsApp.csproj",
+  "projectFilePath": "C:\\Collaudi\\VisualStudioCode\\WindowsForms\\WinFormsApp\\WinFormsApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nicolo.fiorona\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
     "C:\\Users\\nicolo.fiorona\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",

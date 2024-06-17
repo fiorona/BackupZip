@@ -1,4 +1,7 @@
-public class CustomCheckBox : System.Windows.Forms.CheckBox
+namespace WinFormsApp;
+partial class Form1
+{
+    public class CustomCheckBox : System.Windows.Forms.CheckBox
     {
         private System.Windows.Forms.Label lb = new System.Windows.Forms.Label ();
         
@@ -16,6 +19,7 @@ public class CustomCheckBox : System.Windows.Forms.CheckBox
             this.TabIndex=TabIndex;
             this.Enabled=false;
             sender.Controls.Add (this); //this si riferisce al button e la aggiungo al sender che è il Form
+            this.Click += MyButton_Click;
 
             if (LabelText!="")
             {
@@ -59,12 +63,17 @@ public class CustomCheckBox : System.Windows.Forms.CheckBox
                 sender.Controls.Add (lb);//aggiungo al sender che è il Form
             } 
         }
-        public System.Windows.Forms.Label getLb ()
-        {
-            return lb;
-        }
-        public System.Windows.Forms.CheckBox get_btn ()
-        {
-            return this;
-        }
     }//fine CustomCheckBox 
+    public void CheckBoxManager(int totali, int StartXpos, int StartYpos, string Name,ref List<CustomCheckBox> List)//creo la lista dei pulsanti LED
+    {
+        List = new List<CustomCheckBox>();
+        for (int i=0; i<totali; i++)
+        {
+            string nomePulsante= Name+$"{i+2}";
+            string labelPulsante= nomePulsante; 
+            CustomCheckBox LedCustomCheckSingle = new CustomCheckBox(nomePulsante,100,25, StartXpos,StartYpos+(i*25), indexTab=indexTab+1,labelPulsante,this,nomePulsante);              
+            LedCustomCheckSingle.Click += MyButton_Click;   
+            List.Add(LedCustomCheckSingle);
+        }
+    }
+}
